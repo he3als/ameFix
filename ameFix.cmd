@@ -65,6 +65,12 @@ function RenamePaths {
 }
 
 if (!($AfterRestart)) {
+	if ((Get-Service -Name "Schedule" -EA SilentlyContinue).Status -ne 'Running') {
+		Write-Host "The Task Scheduler service isn't running or doesn't exist." -ForegroundColor Red
+		Write-Host "Press any key to exit... " -NoNewLine
+		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+	}
+	
 	Write-Host "This will disable Defender a different way to work around AME Wizard issues, Windows will restart after it's finished." -ForegroundColor Yellow
 	pause; Write-Host ""
 
